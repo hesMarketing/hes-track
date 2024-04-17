@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useNuxtApp } from '#app'
 
 export default defineNuxtPlugin({
   name: 'hes-analytics',
@@ -6,12 +6,13 @@ export default defineNuxtPlugin({
   hooks: {
       // You can directly register Nuxt app runtime hooks here
       'app:created'() {
-          //@ts-ignore
-          const options = useRuntimeConfig().public.hes
+            const nuxtApp = useNuxtApp()
 
-          append_google_analytics_script(options.gtag_id);
-          append_google_tag_manager_script(options.gtag_id);
-          append_hotjar_script(options.hotjar_id);
+            const options = nuxtApp.payload.config?.public.hes as any;
+
+            append_google_analytics_script(options.gtag_id);
+            append_google_tag_manager_script(options.gtag_id);
+            append_hotjar_script(options.hotjar_id);
       },
   },
 })
