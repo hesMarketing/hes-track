@@ -1,19 +1,31 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, createResolver, addImportsDir } from '@nuxt/kit'
+import { defu } from 'defu'
 
 // Module options TypeScript interface definition
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  gtag_id: string | null,
+  hotjar_id: string | null,
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'my-module',
-    configKey: 'myModule',
+    name: 'hes',
+    configKey: 'hes',
   },
   // Default configuration options of the Nuxt module
-  defaults: {},
-  setup(_options, _nuxt) {
+  defaults: {
+    gtag_id: null,
+    hotjar_id: null
+  },
+  setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    nuxt.options.runtimeConfig.public.hes = defu(nuxt.options.runtimeConfig.public.hes as any, {...options})
+
+    addPlugin({
+      src: resolver.resolve('./runtime/plugins/plugin'),
+      mode: "client", 
+    })
+    addImportsDir(resolver.resolve('runtime/composables'))
   },
 })
