@@ -13,7 +13,6 @@ export default defineNuxtPlugin({
             append_google_analytics_script(options.gtag_id);
             append_google_tag_manager_script(options.gtag_id);
             append_hotjar_script(options.hotjar_id);
-            set_default_consent();
       },
   },
 })
@@ -33,11 +32,19 @@ function append_google_analytics_script(analytics_id: string) {
   let GAnalyticsScript_2 = document.createElement("script");
   GAnalyticsScript_2.type = "text/javascript"
   GAnalyticsScript_2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'analytics_storage': 'denied'
+        });
 
-      gtag('config', '${analytics_id}');
+        gtag('js', new Date());
+
+        gtag('config', '${analytics_id}');
   `;
 
   document.head.appendChild(GAnalyticsScript_2);
@@ -79,8 +86,6 @@ function append_google_tag_manager_script(id: string) {
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','${id}');
-
-
   `;
 
   let script_2 = document.createElement("noscript");
@@ -91,15 +96,4 @@ function append_google_tag_manager_script(id: string) {
 
   document.head.appendChild(script);
   document.body.prepend(script_2);
-}
-
-function set_default_consent() {
-
-    //@ts-ignore
-    window.gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied'
-    });
 }
