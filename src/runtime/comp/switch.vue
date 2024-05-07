@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts" setup>
-    import {ref, defineEmits, defineProps, onMounted} from "Vue"
-import type { Permission } from "../composables/ga";
+    import {ref, defineEmits, defineProps, onMounted} from "vue"
+    import type { Permission } from "../composables/ga";
 
     const emits = defineEmits(["updated"])
 

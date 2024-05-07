@@ -81,7 +81,7 @@
 
 <style lang="css" scoped>
     .Cookie-wrapper {
-        position: absolute;
+        position: fixed;
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -90,6 +90,8 @@
         z-index: 999999;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
+        pointer-events: none;
 
         & .backdrop {
             position: absolute;
@@ -102,6 +104,7 @@
             z-index: 0;
 
             opacity: 0;
+            pointer-events: none;
         }
 
 
@@ -109,6 +112,7 @@
             & .backdrop {
                 animation: becomeVisible .2s;
                 animation-fill-mode: forwards;
+                pointer-events: all;
             }
             
             & .cookie-banner {
@@ -149,6 +153,7 @@
         z-index: 1;
         border-radius: 2rem;
         overflow: hidden;
+        pointer-events: all;
 
 
         & .image {
