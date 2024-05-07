@@ -13,6 +13,7 @@ export default defineNuxtPlugin({
             append_google_analytics_script(options.gtag_id);
             append_google_tag_manager_script(options.gtag_id);
             append_hotjar_script(options.hotjar_id);
+            set_default_consent();
       },
   },
 })
@@ -40,7 +41,6 @@ function append_google_analytics_script(analytics_id: string) {
   `;
 
   document.head.appendChild(GAnalyticsScript_2);
-
 }
 
 function append_hotjar_script(analytics_id: string) {
@@ -91,4 +91,15 @@ function append_google_tag_manager_script(id: string) {
 
   document.head.appendChild(script);
   document.body.prepend(script_2);
+}
+
+function set_default_consent() {
+
+    //@ts-ignore
+    window.gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+    });
 }

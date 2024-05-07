@@ -1,5 +1,8 @@
 export default defineNuxtConfig({
   modules: ['../src/module'],
-  myModule: {},
+  hes: {
+    gtag_id: "G-S5CD3XQ3FK"
+  },
   devtools: { enabled: true },
+
 })
