@@ -11,6 +11,10 @@ export const updateLeadOrigin = (browser_lang: string, browser_location: string,
 
 export const handle_form = async (form: FormData) => {
 
+    form.append("URL_da_página", page_url);
+    form.append("origem_da_lead", lead_origin);
+    form.append("Linguagem do browser", browser_language);
+
     if(form.get("nome")) {
         let nome_completo = form.get("nome") as string;
 
@@ -46,10 +50,6 @@ export const handle_form = async (form: FormData) => {
     for (let v of form.entries()) {
         params.push(`${v[0]}${(v[1] as string).length > 0 ? '=' : ''}${v[1]}`);
     }
-
-    form.append("URL_da_página", page_url);
-    form.append("origem_da_lead", lead_origin);
-    form.append("Linguagem do browser", browser_language);
 
     const data = await fetch('https://hesapis.netlify.app/.netlify/functions/lead?' + params.join("&"), {
         method: "get",
