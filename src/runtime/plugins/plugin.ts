@@ -1,4 +1,5 @@
 import { defineNuxtPlugin, useNuxtApp } from '#app'
+import { updateLeadOrigin } from '../composables/handle_form';
 
 export default defineNuxtPlugin({
   name: 'hes-analytics',
@@ -10,6 +11,7 @@ export default defineNuxtPlugin({
 
             const options = nuxtApp.payload.config?.public.hes as any;
 
+            handle_lead_origins();
             append_google_analytics_script(options.gtag_id);
             append_google_tag_manager_script(options.gtag_id);
             append_hotjar_script(options.hotjar_id);
@@ -96,4 +98,15 @@ function append_google_tag_manager_script(id: string) {
 
   document.head.appendChild(script);
   document.body.prepend(script_2);
+}
+
+
+function handle_lead_origins() {
+
+    let browser_lang = window.navigator.language
+    let browser_location = window.location.href;
+
+    let origem = new URLSearchParams(window.location.search).get("origem_da_lead") || "";
+
+    updateLeadOrigin(browser_lang, browser_location, origem);
 }
